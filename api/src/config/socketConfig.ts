@@ -1,6 +1,7 @@
 import { IncomingMessage, OutgoingMessage, Server as NodeServer, ServerResponse } from "node:http";
 import { Server } from 'socket.io'
 import { logger } from "./logger.js";
+import { registerSocketHandlers } from "../socket.js";
 
 function initializeSocket(http: NodeServer<typeof IncomingMessage, typeof ServerResponse>) {
     try {
@@ -8,11 +9,15 @@ function initializeSocket(http: NodeServer<typeof IncomingMessage, typeof Server
             cors: { origin: '*', methods: ['GET', 'POST'] }
         })
 
+
         io.on('connection', (socket) => {
             logger.color("greenBright").bold(`A user with socket Id: ${socket.id} connected`);
-            socket.join(socket.id);
 
+            registerSocketHandlers(socket);
 
+            socket.on('disconnect', () => {
+                logger.warn(`user: ${socket.id} is disconnected!`);
+            })
         })
 
         return io;

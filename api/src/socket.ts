@@ -1,5 +1,6 @@
-import { DefaultEventsMap, Socket } from "socket.io";
+import { Socket } from "socket.io";
+import pollSockets from "./sockets/poll.js";
 
-export const sockets = (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
-
+export const registerSocketHandlers = (socket: Socket) => {
+    pollSockets(socket);
 }

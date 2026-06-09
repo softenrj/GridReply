@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { IPollSession } from "../types/poll.js";
+import { PollSessionDoc } from "../types/poll.js";
 
-const pollSessionSchema = new mongoose.Schema<IPollSession>({
+const pollSessionSchema = new mongoose.Schema<PollSessionDoc>({
     code: { type: String, required: true, index: true },
 }, { timestamps: true });
 
-export const PollSessionModel = mongoose.model<IPollSession>('pollsessions', pollSessionSchema);
+export const PollSessionModel = mongoose.model<PollSessionDoc>('pollsessions', pollSessionSchema);
