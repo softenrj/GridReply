@@ -1,0 +1,23 @@
+{
+  "name": "gridreply",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "raj",
+  "type": "module",
+  "main": "server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch --env-file=.env src/server.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.3",
+    "morgan": "^1.11.0",
+    "primelogger": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6"
+  }
+}
