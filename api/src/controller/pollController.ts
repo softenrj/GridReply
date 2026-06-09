@@ -32,18 +32,4 @@ export const initiateNewSession = async (req: Request, res: Response): Promise<v
     }
 }
 
-export const createPoll = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const code = req.params.code;
-
-        if (!code) {
-            sendResponse(res, 401, { message: "Envalid code", success: false });
-            return;
-        }
-
-        const { } = req.body;
-    } catch (error) {
-        console.error('[Error] initiate New Session ', error);
-        sendResponse(res, 500, { message: 'Internal Server Error', success: false })
-    }
-}
+// socket will does the realtime works 

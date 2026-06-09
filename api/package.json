@@ -15,7 +15,8 @@
     "express": "^5.2.1",
     "mongoose": "^9.6.3",
     "morgan": "^1.11.0",
-    "primelogger": "^1.0.1"
+    "primelogger": "^1.0.1",
+    "socket.io": "^4.8.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.6"

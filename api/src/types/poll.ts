@@ -35,7 +35,8 @@ export interface IAnswer {
     pollId: mongoose.Types.ObjectId;
     row: number;
     col: number;
-    answer: string;
+    answer: string | number;
+    pollType: PollType;
     createdAt: Date;
     updatedAt: Date;
 }
