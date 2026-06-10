@@ -17,7 +17,7 @@ import Auth from "../service/authToken.js";
  */
 export const initiateNewSession = async (req: Request, res: Response): Promise<void> => {
     try {
-        const newCode = crypto.randomBytes(6).toString('hex').toUpperCase();
+        const newCode = crypto.randomBytes(3).toString('hex').toUpperCase();
 
         if (!newCode) {
             sendResponse(res, 400, { message: 'Something went wrong', success: false });

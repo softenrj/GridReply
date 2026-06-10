@@ -15,8 +15,8 @@ export function MatrixCard({ label, value, icon: Icon, colorClass }: any) {
 }
 
 function Matrix() {
-    const row = 100;
-    const col = 100;
+    const row = 10;
+    const col = 10;
     const totalCells = row * col;
 
     const [answeredCells, setAnsweredCells] = useState(new Set());
@@ -98,7 +98,7 @@ function Matrix() {
                     </div>
                 </div>
 
-                <div className="w-full overflow-x-auto xl:max-h-140 pb-2 sm:pb-4 rounded-lg sm:rounded-none" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div className="w-full overflow-x-auto scrollbar xl:max-h-140 pb-2 sm:pb-4 rounded-lg sm:rounded-none" >
                     <div
                         ref={gridRef}
                         id="grid"
@@ -106,7 +106,6 @@ function Matrix() {
                         style={{
                             gridTemplateColumns: `repeat(${col}, 48px)`,
                             gridTemplateRows: `repeat(${row}, 48px)`,
-                            width: 'max-content'
                         }}
                     >
                         {Array.from({ length: row }).map((_, i) => (

@@ -1,0 +1,1 @@
+export const defaultApiRoute = "http://localhost:8080"

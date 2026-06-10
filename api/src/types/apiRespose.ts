@@ -19,7 +19,7 @@ export type API_RESPONSE<T> = {
  */
 function sendResponse<T>(res: Response, status: number, responseObject: API_RESPONSE<T>) {
     try {
-        res.status(status).json({ message: responseObject.message || '', status: responseObject.data || {}, success: responseObject.success });
+        res.status(status).json({ message: responseObject.message || '', data: responseObject.data || {}, success: responseObject.success });
     } catch (error) {
         logger.error(`Error White Response: ${error}`)
     }

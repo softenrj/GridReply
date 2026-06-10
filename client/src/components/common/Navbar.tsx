@@ -1,5 +1,5 @@
 "use client"
-import { Asterisk } from 'lucide-react'
+import { Asterisk, Balloon } from 'lucide-react'
 
 function Navbar() {
     return (
@@ -9,8 +9,6 @@ function Navbar() {
                 <h1 className='font-mono text-xl text-white shadow-2xs font-semibold'>GridReply</h1>
             </div>
             <div>
-
-
             </div>
         </div>
     )

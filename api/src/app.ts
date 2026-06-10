@@ -11,7 +11,7 @@ dns.setServers(['1.1.1.1', '8.8.8.8']);
 const app = express();
 app.use(morgan('dev'));
 
-const allowedOrigin: string[] = ["xyz"]
+const allowedOrigin: string[] = ["http://localhost:3000"]
 
 app.use(cors({
     origin: (origin, callback) => {

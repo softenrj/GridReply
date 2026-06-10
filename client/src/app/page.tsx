@@ -1,7 +1,7 @@
-import Poll from "@/components/Poll";
+import Main from "@/components/common/Main"
 
 function page() {
-  return <Poll />
+  return <Main />
 }
 
 export default page
