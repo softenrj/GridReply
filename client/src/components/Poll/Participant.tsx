@@ -1,3 +1,4 @@
+"use client"
 import { Carrot, Fan, Info, Plane, Send } from 'lucide-react';
 import React from 'react';
 
