@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 import { PollDoc, PollOption, PollType } from "../types/poll.js";
 import { validater } from "./pollAnswer.js";
+import { maxLength, minLength } from "zod";
 
 const pollSchema = new mongoose.Schema<PollDoc>({
     sessionId: { type: mongoose.Schema.ObjectId, required: true, ref: 'pollsessions', index: true },
+    sessionCode: { type: String, require: true, minLength: 6, maxLength: 6 },
     cols: { type: Number, required: true, default: 0 },
     rows: { type: Number, required: true, default: 0 },
     question: { type: String, default: '' },

@@ -8,7 +8,7 @@ defaultAxios.interceptors.request.use(
         const token = localStorage.getItem('gridreply::token');
 
         if (token) {
-            config.headers.Authorization = `Barer ${token}`;
+            config.headers.Authorization = `Bearer ${token}`;
         }
 
         return config;

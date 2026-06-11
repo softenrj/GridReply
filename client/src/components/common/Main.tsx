@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 import JoinDialog from './JoinDialog'
 import { postApi } from '../../../utils/api/common'
-import { Poll } from '../../../types/poll'
+import { PollSesson } from '../../../types/poll'
 import { NEW_SESSION } from '../../../utils/api/APIConstants'
 import { ApiResponse } from '../../../types/ApiResponse'
 import { useRouter } from 'next/navigation'
@@ -85,13 +85,13 @@ export default function GridReplyLanding() {
     const handleNewSession = async () => {
         try {
             setLoading(true);
-            const res = await postApi<ApiResponse<{ poll: Poll, token: string }>>({
+            const res = await postApi<ApiResponse<{ poll: PollSesson, token: string }>>({
                 url: NEW_SESSION,
             })
 
             if (res?.success) {
                 console.log(res);
-                localStorage.setItem('gridreply::token', JSON.stringify(res.data.token));
+                localStorage.setItem('gridreply::token', res.data.token);
                 localStorage.setItem('gridreply::poll', JSON.stringify(res.data.poll));
                 router.push(`/poll/${res.data.poll.code}`)
             }
@@ -142,8 +142,8 @@ export default function GridReplyLanding() {
                         Build a poll with rows and columns, share a link, and collect answers anonymously — or jump into any poll with a short code.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row gap-3 mt-1" onClick={handleNewSession}>
-                        <button disabled={loading} className="flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:scale-[1.02] active:scale-[0.99] transition-all duration-150">
+                    <div className="flex flex-col sm:flex-row gap-3 mt-1">
+                        <button disabled={loading} onClick={handleNewSession} className="flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:scale-[1.02] active:scale-[0.99] transition-all duration-150">
                             <Grid3X3 size={17} />
                             Create a Poll
                             <ArrowRight size={15} />

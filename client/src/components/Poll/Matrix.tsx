@@ -1,6 +1,12 @@
 "use client"
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import { Grid3X3, CheckCircle2, CircleDashed, LayoutGrid, CheckSquare, XSquare, MoveHorizontal } from 'lucide-react';
+import { Poll } from '../../../types/poll';
+import { getApi } from '../../../utils/api/common';
+import { ApiResponse } from '../../../types/ApiResponse';
+import { GET_POLL } from '../../../utils/api/APIConstants';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export function MatrixCard({ label, value, icon: Icon, colorClass }: any) {
     return (
@@ -14,15 +20,16 @@ export function MatrixCard({ label, value, icon: Icon, colorClass }: any) {
     );
 }
 
-function Matrix() {
+function Matrix({ poll }: { poll: Poll | null }) {
+
     const row = 10;
     const col = 10;
     const totalCells = row * col;
 
-    const [answeredCells, setAnsweredCells] = useState(new Set());
-    const gridRef = useRef<HTMLDivElement | null>(null);
+    const [answeredCells, setAnsweredCells] = React.useState(new Set());
+    const gridRef = React.useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const gridElement = gridRef.current;
         if (!gridElement) return;
 
@@ -54,6 +61,8 @@ function Matrix() {
         };
     }, []);
 
+
+
     return (
         <div className="w-full min-w-0 overflow-hidden mx-auto my-2 sm:my-6 p-4 sm:p-8 bg-slate-50 rounded-2xl sm:rounded-3xl shadow-sm sm:shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 font-sans">
 
@@ -66,7 +75,7 @@ function Matrix() {
                         Matrix Grid
                     </h2>
                     <p className="text-xs sm:text-sm font-medium text-gray-500 mt-0.5">
-                        Dimensions: {row} &times; {col}
+                        Dimensions: {poll?.rows} &times; {poll?.cols}
                     </p>
                 </div>
             </div>
@@ -108,8 +117,8 @@ function Matrix() {
                             gridTemplateRows: `repeat(${row}, 48px)`,
                         }}
                     >
-                        {Array.from({ length: row }).map((_, i) => (
-                            Array.from({ length: col }).map((_, j) => {
+                        {Array.from({ length: poll?.rows ?? 0 }).map((_, i) => (
+                            Array.from({ length: poll?.cols ?? 0 }).map((_, j) => {
                                 const isAnswered = answeredCells.has(`${i + 1}-${j + 1}`);
 
                                 return (

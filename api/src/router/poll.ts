@@ -7,6 +7,6 @@ const pollRoute = Router();
 pollRoute.post('/new-session', pollController.initiateNewSession);
 pollRoute.post('/poll/', isAuth, pollController.createPoll);
 pollRoute.patch('/poll/:pollId', isAuth, pollController.updatePoll);
-pollRoute.get('/get-poll/:sessionId', pollController.getPoll);
+pollRoute.get('/get-poll/:sessionCode', pollController.getPoll);
 
 export default pollRoute;

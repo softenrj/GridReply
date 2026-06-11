@@ -6,7 +6,7 @@ function Participant() {
     const isOptions = false;
 
     return (
-        <div className="max-w-2xl mx-auto my-10 p-6 sm:p-8 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 font-sans">
+        <div className="w-full mx-auto my-10 p-6 sm:p-8 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 font-sans">
 
             <div className="flex items-center gap-3 pb-6 border-b border-gray-100 mb-6">
                 <div className="p-2 bg-orange-50 rounded-xl">

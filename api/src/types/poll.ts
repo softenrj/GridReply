@@ -27,6 +27,7 @@ export const PollOption = z.object({
 
 export const PollSchema = z.object({
     question: z.string(),
+    sessionCode: z.string().length(6),
     pollType: z.enum(PollType),
     options: z.array(PollOption).optional(),
     rows: z.number().gt(0),

@@ -62,9 +62,9 @@ export const createPoll = async (req: Request, res: Response): Promise<void> => 
             sendResponse(res, 400, { message: cleanErrorMessage, success: false });
             return;
         }
-        const { rows, cols, question, answer, pollType, options } = parsedBody.data;
+        const { rows, cols, question, answer, pollType, options, sessionCode } = parsedBody.data;
 
-        const poll = await PollModel.create({ sessionId: new mongoose.Types.ObjectId(sessionId), cols, rows, question, options, pollType, answer });
+        const poll = await PollModel.create({ sessionId: new mongoose.Types.ObjectId(sessionId), cols, rows, question, options, pollType, answer, sessionCode });
         const session = await PollSessionModel.findById(sessionId);
 
         const io = req.app.get('io');
@@ -87,7 +87,7 @@ export const createPoll = async (req: Request, res: Response): Promise<void> => 
 };
 
 /**
- * 
+ *
  * @param req 
  * @param res 
  * @returns 
@@ -123,6 +123,17 @@ export const updatePoll = async (req: Request, res: Response): Promise<void> => 
             return;
         }
 
+        const io = req.app.get('io');
+
+        if (io && poll?.sessionCode) {
+            const roomName = `session:${poll?.sessionCode}`;
+
+            io.to(roomName).emit("poll_updated", {
+                pollId: poll._id,
+                updatedData: poll
+            });
+        }
+
         sendResponse(res, 200, { message: 'poll updated successfully', data: poll, success: true });
     } catch (error) {
         console.error('[Error] update poll ', error);
@@ -138,14 +149,14 @@ export const updatePoll = async (req: Request, res: Response): Promise<void> => 
  */
 export const getPoll = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { sessionId } = req.params;
+        const { sessionCode } = req.params;
 
-        if (!sessionId) {
-            sendResponse(res, 400, { message: "Invalid or missing Session ID", success: false });
+        if (!sessionCode) {
+            sendResponse(res, 400, { message: "Invalid or missing session code", success: false });
             return;
         }
 
-        const poll = await PollModel.findOne({ sessionId: sessionId });
+        const poll = await PollModel.findOne({ sessionCode });
 
         if (!poll) {
             sendResponse(res, 404, { message: "Poll not found", success: false });
