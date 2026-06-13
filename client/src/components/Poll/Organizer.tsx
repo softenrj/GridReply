@@ -3,12 +3,12 @@
 import { Carrot, Fan, Info, Send } from 'lucide-react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { Poll } from '../../../types/poll';
+import { Poll, PollOption } from '../../../types/poll';
 import { patchApi, postApi } from '../../../utils/api/common';
 import { ApiResponse } from '../../../types/ApiResponse';
 import { CREATE_POLL } from '../../../utils/api/APIConstants';
 
-function Organizer({ pollId, sessionId, onPoll }: { pollId: string | null, sessionId: string, onPoll: (poll: Poll) => void }) {
+function Organizer({ pollId, sessionId, onPoll, poll }: { pollId: string | null, sessionId: string, onPoll: (poll: Poll) => void, poll: Poll | null }) {
     const [isOptions, setIsOptions] = useState(true);
 
     const [question, setQuestion] = useState("");
@@ -16,7 +16,7 @@ function Organizer({ pollId, sessionId, onPoll }: { pollId: string | null, sessi
     const [rows, setRows] = useState<number>(1);
     const [cols, setCols] = useState<number>(1);
 
-    const [options, setOptions] = useState([
+    const [options, setOptions] = useState<PollOption[]>([
         { id: 1, text: "" },
         { id: 2, text: "" },
         { id: 3, text: "" },
@@ -61,6 +61,15 @@ function Organizer({ pollId, sessionId, onPoll }: { pollId: string | null, sessi
             await handleCreatePoll(payload);
         }
     };
+
+    React.useEffect(() => {
+        if (!poll) return;
+        setRows(poll.rows);
+        setCols(poll.cols);
+        setQuestion(poll.question);
+        if (poll.options && poll.options.length > 0) setOptions(poll.options);
+        setTextAnswer(poll.answer);
+    }, [poll])
 
     const handleCreatePoll = async (payload: any) => {
         try {
@@ -143,7 +152,7 @@ function Organizer({ pollId, sessionId, onPoll }: { pollId: string | null, sessi
                         <h3 className="text-lg font-bold text-gray-800">Grid Settings</h3>
                         <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full w-fit">
                             <Info className="w-3.5 h-3.5" />
-                            <span>Rows: 1-14, Cols: 1-14</span>
+                            <span>Rows: 1-{poll?.rows ?? 1}, Cols: 1-{poll?.cols ?? 0}</span>
                         </div>
                     </div>
 
@@ -154,7 +163,7 @@ function Organizer({ pollId, sessionId, onPoll }: { pollId: string | null, sessi
                                 required
                                 type="number"
                                 min={1}
-                                max={14}
+                                defaultValue={1}
                                 value={rows}
                                 onChange={(e) => setRows(Number(e.target.value))}
                                 className="px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-400/10 outline-none transition-all duration-200 text-gray-700"
@@ -168,7 +177,7 @@ function Organizer({ pollId, sessionId, onPoll }: { pollId: string | null, sessi
                                 required
                                 type="number"
                                 min={1}
-                                max={14}
+                                defaultValue={1}
                                 value={cols}
                                 onChange={(e) => setCols(Number(e.target.value))}
                                 className="px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-400/10 outline-none transition-all duration-200 text-gray-700"

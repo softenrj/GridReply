@@ -1,9 +1,10 @@
 "use client"
 import { Carrot, Fan, Info, Plane, Send } from 'lucide-react';
 import React from 'react';
+import { Poll } from '../../../types/poll';
 
-function Participant() {
-    const isOptions = false;
+function Participant({ poll }: { poll: Poll }) {
+    const isOptions = poll.options.length > 0;
 
     return (
         <div className="w-full mx-auto my-10 p-6 sm:p-8 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 font-sans">
@@ -30,7 +31,7 @@ function Participant() {
                         </div>
                         <div>
                             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Question</h3>
-                            <p className="text-xl font-medium text-slate-800">How is stupid?</p>
+                            <p className="text-xl font-medium text-slate-800">{poll.question}</p>
                         </div>
                     </div>
                 </div>
@@ -40,7 +41,7 @@ function Participant() {
                         <h3 className="text-lg font-bold text-gray-800">Your Response</h3>
                         <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full w-fit">
                             <Info className="w-3.5 h-3.5" />
-                            <span>Rows: 1-14, Cols: 1-14</span>
+                            <span>Rows: 1-{poll.rows}, Cols: 1-{poll.cols}</span>
                         </div>
                     </div>
 
@@ -50,7 +51,6 @@ function Participant() {
                             <input
                                 type="number"
                                 min={1}
-                                max={14}
                                 className="px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-400/10 outline-none transition-all duration-200 text-gray-700"
                                 placeholder="e.g., 5"
                             />
@@ -61,7 +61,6 @@ function Participant() {
                             <input
                                 type="number"
                                 min={1}
-                                max={14}
                                 className="px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-400/10 outline-none transition-all duration-200 text-gray-700"
                                 placeholder="e.g., 8"
                             />
@@ -71,9 +70,9 @@ function Participant() {
                     {isOptions ? <div className="space-y-3 pt-2">
                         <h4 className="text-sm font-semibold text-gray-600 mb-3">Select an Answer</h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {Array.from({ length: 4 }).map((_, index) => (
+                            {poll.options.map((item, index) => (
                                 <label
-                                    key={index}
+                                    key={item.id}
                                     className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 cursor-pointer hover:border-pink-300 hover:bg-pink-50/30 transition-all duration-200 has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50 has-[:checked]:shadow-sm"
                                 >
                                     <input
@@ -81,7 +80,7 @@ function Participant() {
                                         name="mcq-answer"
                                         className="w-5 h-5 text-pink-500 border-gray-300 accent-pink-500 border-none"
                                     />
-                                    <span className="font-medium text-gray-700">Option {index + 1}</span>
+                                    <span className="font-medium text-gray-700">{item.text}</span>
                                 </label>
                             ))}
                         </div>

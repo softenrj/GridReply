@@ -7,6 +7,8 @@ import { ApiResponse } from '../../../types/ApiResponse';
 import { GET_POLL } from '../../../utils/api/APIConstants';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { getSocket } from '@/service/socket';
+import { UPDATED_POLL } from '../../../utils/api/socket';
 
 export function MatrixCard({ label, value, icon: Icon, colorClass }: any) {
     return (
@@ -20,14 +22,15 @@ export function MatrixCard({ label, value, icon: Icon, colorClass }: any) {
     );
 }
 
-function Matrix({ poll }: { poll: Poll | null }) {
+function Matrix({ poll, onPollUpdate }: { poll: Poll | null, onPollUpdate: (poll: Poll) => void }) {
 
-    const row = 10;
-    const col = 10;
+    const row = poll?.rows ?? 10;
+    const col = poll?.cols ?? 10;
     const totalCells = row * col;
 
     const [answeredCells, setAnsweredCells] = React.useState(new Set());
     const gridRef = React.useRef<HTMLDivElement | null>(null);
+    const socket = getSocket();
 
     React.useEffect(() => {
         const gridElement = gridRef.current;
@@ -61,6 +64,20 @@ function Matrix({ poll }: { poll: Poll | null }) {
         };
     }, []);
 
+
+    React.useEffect(() => {
+        if (!socket) return;
+
+        socket.on(UPDATED_POLL, (response: { success: boolean, data: Poll }) => {
+            if (response.success) {
+                onPollUpdate(response.data);
+            }
+        })
+
+        return () => {
+            socket.off(UPDATED_POLL);
+        }
+    }, [poll?._id])
 
 
     return (

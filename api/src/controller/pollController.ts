@@ -64,6 +64,13 @@ export const createPoll = async (req: Request, res: Response): Promise<void> => 
         }
         const { rows, cols, question, answer, pollType, options, sessionCode } = parsedBody.data;
 
+        const existedPoll = await PollModel.exists({ sessionCode });
+
+        if (existedPoll) {
+            sendResponse(res, 400, { success: false, data: {}, message: "poll is already created" });
+            return;
+        }
+
         const poll = await PollModel.create({ sessionId: new mongoose.Types.ObjectId(sessionId), cols, rows, question, options, pollType, answer, sessionCode });
         const session = await PollSessionModel.findById(sessionId);
 
@@ -74,7 +81,9 @@ export const createPoll = async (req: Request, res: Response): Promise<void> => 
 
             io.to(roomName).emit("poll_updated", {
                 pollId: poll._id,
-                updatedData: poll
+                data: poll,
+                success: true,
+                message: "poll is created"
             });
         }
 
@@ -116,7 +125,7 @@ export const updatePoll = async (req: Request, res: Response): Promise<void> => 
         }
 
 
-        const poll = await PollModel.findByIdAndUpdate(pollId, PollSchema);
+        const poll = await PollModel.findByIdAndUpdate(pollId, { $set: parsedBody.data }, { new: true });
 
         if (!poll) {
             sendResponse(res, 404, { message: "Poll not found", success: false });
@@ -130,7 +139,9 @@ export const updatePoll = async (req: Request, res: Response): Promise<void> => 
 
             io.to(roomName).emit("poll_updated", {
                 pollId: poll._id,
-                updatedData: poll
+                data: poll,
+                message: "updated poll",
+                success: true
             });
         }
 

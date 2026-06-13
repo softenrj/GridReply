@@ -1,12 +1,12 @@
 import { Socket, io } from "socket.io-client";
-import { defaultApiRoute } from "../utils/contants";
+import { defaultApiRoute } from "../../utils/contants";
 
-const socket: Socket | null = null;
+let socket: Socket | null = null;
 
 export const getSocket = (): Socket | null => {
     if (!socket) {
         if (typeof window === 'undefined') return null;
-        return connectSocket();
+        return socket = connectSocket();
     }
     return socket;
 }

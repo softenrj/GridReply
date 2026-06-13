@@ -11,17 +11,17 @@ export enum PollType {
 }
 
 export interface PollOption {
-    id: string;
+    id: number;
     text: string;
 }
 export interface Poll {
     _id: string;
     question: string;
     pollType: PollType;
-    options: PollOption;
+    options: PollOption[];
     rows: number;
     cols: number;
-    answer: number;
+    answer: string;
     sessionId: string;
     sessionCode: string;
     createdAt: Date;

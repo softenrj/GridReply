@@ -10,10 +10,13 @@ import { ApiResponse } from '../../../types/ApiResponse'
 import { GET_POLL } from '../../../utils/api/APIConstants'
 import { getApi } from '../../../utils/api/common'
 import toast from 'react-hot-toast'
+import { getSocket } from '@/service/socket'
+import { JOIN_SESSION, JOIN_STATUS } from '../../../utils/api/socket'
 
 function index({ pollId }: { pollId: string }) {
     const [poll, setPoll] = React.useState<Poll | null>(null)
     const [isOrganizer, setIsOrganizer] = React.useState<boolean>(false);
+    const socket = getSocket();
 
     React.useEffect(() => {
         const org = !!localStorage.getItem('gridreply::token');
@@ -49,17 +52,43 @@ function index({ pollId }: { pollId: string }) {
         loadPoll();
     }, [pollId])
 
+
+
+    // try to connect to the poll
+    React.useEffect(() => {
+        if (!socket || !pollId) return;
+
+        const joinSession = () => {
+            socket.emit(JOIN_SESSION, {
+                sessionCode: pollId
+            })
+        }
+
+        joinSession();
+
+        const handleJoin = (response: { success: boolean, message: string }) => {
+            if (!response.success) joinSession();
+            console.log('[GRIDREPLY:SOCKET] ', response.message);
+        }
+
+        socket.on(JOIN_STATUS, handleJoin)
+
+        return () => {
+            socket.off(JOIN_STATUS, handleJoin);
+        }
+    }, [])
+
     return (
         <div className='min-h-screen w-full bg-white'>
             <Navbar />
 
             <div className='p-3 w-full flex flex-col lg:flex-row gap-4'>
                 {isOrganizer ? (
-                    <Organizer sessionId={pollId} pollId={poll?._id!} onPoll={handleUpdatePoll} />
+                    <Organizer sessionId={pollId} poll={poll} pollId={poll?._id!} onPoll={handleUpdatePoll} />
                 ) : (
-                    <Participant />
+                    poll && <Participant poll={poll} />
                 )}
-                <Matrix poll={poll} />
+                <Matrix poll={poll} onPollUpdate={handleUpdatePoll} />
             </div>
         </div>
     )
