@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GridReply",
-  description: "Gen Participate Poll!",
+  title: "GridReply - Interactive Matrix Polling Platform",
+  description: "Create and participate in interactive matrix polls with GridReply. Real-time polling and voting made simple.",
+  keywords: "polls, voting, surveys, matrix, interactive, polling",
 };
 
 export default function RootLayout({
