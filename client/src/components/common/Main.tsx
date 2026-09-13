@@ -90,7 +90,6 @@ export default function GridReplyLanding() {
             })
 
             if (res?.success) {
-                console.log(res);
                 localStorage.setItem('gridreply::token', res.data.token);
                 localStorage.setItem('gridreply::poll', JSON.stringify(res.data.poll));
                 router.push(`/poll/${res.data.poll.code}`)

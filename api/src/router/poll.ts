@@ -9,4 +9,9 @@ pollRoute.post('/poll/', isAuth, pollController.createPoll);
 pollRoute.patch('/poll/:pollId', isAuth, pollController.updatePoll);
 pollRoute.get('/get-poll/:sessionCode', pollController.getPoll);
 
+pollRoute.post('/poll-answer/:sessionCode', pollController.answerPoll);
+pollRoute.post('/reveal-answers/:pollId', isAuth, pollController.revealAnswers);
+pollRoute.post('/reset-poll/:pollId', isAuth, pollController.resetPoll);
+pollRoute.get('/answers/:pollId', pollController.getAnswers);
+
 export default pollRoute;

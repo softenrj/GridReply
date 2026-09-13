@@ -21,19 +21,19 @@ const connectSocket = (): Socket => {
     })
 
     socket.on("connect", () => {
-        console.log("Bricks:webSocket connected with id:", socket!.id);
+        console.log("GridReply:webSocket connected with id:", socket!.id);
     });
 
     socket.on("disconnect", () => {
-        console.log("Bricks:webSocket disconnected");
+        console.log("GridReply:webSocket disconnected");
     });
 
     socket.on("reconnect", () => {
-        console.log("Bricks:webSocket reconnected");
+        console.log("GridReply:webSocket reconnected");
     });
 
     socket.on("reconnect_failed", () => {
-        console.log("Bricks:webSocket reconnection failed");
+        console.log("GridReply:webSocket reconnection failed");
     });
 
     if (socket) {
