@@ -308,8 +308,6 @@ If you found this project helpful, please consider giving it a star! ⭐
 Have questions or suggestions? Feel free to:
 - Open an [Issue](https://github.com/softenrj/GridReply/issues)
 - Email: [rjsharmase@gmail.com](mailto:rjsharmase@gmail.com)
-- Check out our [Discussions](https://github.com/softenrj/GridReply/discussions)
-
 ---
 
 **Made with ❤️ by Raj Sharma**
