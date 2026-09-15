@@ -62,7 +62,7 @@ npm install
 
 3. **Setup Environment Variables**
 
-Create `.env.local` in the `api` directory:
+Create `.env` in the `api` directory:
 ```env
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/gridreply
@@ -70,7 +70,7 @@ JWT_SECRET=your_secret_key_here
 NODE_ENV=development
 ```
 
-Create `.env.local` in the `client` directory:
+Create `.env` in the `client` directory:
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000
 NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
